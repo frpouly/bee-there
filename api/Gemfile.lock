@@ -89,8 +89,16 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     diff-lcs (1.5.1)
+    docker-api (2.2.0)
+      excon (>= 0.47.0)
+      multi_json
+    dotenv (3.1.2)
+    dotenv-rails (3.1.2)
+      dotenv (= 3.1.2)
+      railties (>= 6.1)
     drb (2.2.1)
     erubi (1.13.0)
+    excon (0.110.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     i18n (1.14.5)
@@ -113,6 +121,7 @@ GEM
     mini_mime (1.1.5)
     minitest (5.24.0)
     msgpack (1.7.2)
+    multi_json (1.15.0)
     mutex_m (0.2.0)
     net-imap (0.4.13)
       date
@@ -238,6 +247,10 @@ GEM
     ruby-progressbar (1.13.0)
     stringio (3.1.1)
     strscan (3.1.0)
+    testcontainers-core (0.2.0)
+      docker-api (~> 2.2)
+    testcontainers-postgres (0.2.0)
+      testcontainers-core (~> 0.1)
     thor (1.3.1)
     timeout (0.4.1)
     tzinfo (2.0.6)
@@ -260,6 +273,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   debug
+  dotenv-rails
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 7.1.3, >= 7.1.3.4)
@@ -269,6 +283,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   rubocop-rspec_rails
+  testcontainers-postgres
   tzinfo-data
 
 RUBY VERSION
