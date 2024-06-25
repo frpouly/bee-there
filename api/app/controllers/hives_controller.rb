@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class HivesController < ApplicationController
-  before_action :set_hive, only: %i[ show update destroy ]
+  before_action :set_hive, only: %i[show destroy]
 
   # GET /hives
   def index
@@ -30,13 +32,14 @@ class HivesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_hive
-      @hive = Hive.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def hive_params
-      params.require(:hive).permit(:name, :weight)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_hive
+    @hive = Hive.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def hive_params
+    params.require(:hive).permit(:name, :weight)
+  end
 end
