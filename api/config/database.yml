@@ -18,9 +18,9 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: <%= ENV.fetch('POSTGRES_DB') %>
-  username: <%= ENV.fetch('POSTGRES_USER') %>
-  password: <%= ENV.fetch('POSTGRES_PASSWORD') %>
+  database: <%= ENV.fetch('POSTGRES_DB', 'bee_there_db') %>
+  username: <%= ENV.fetch('POSTGRES_USER', 'bee_there') %>
+  password: <%= ENV.fetch('POSTGRES_PASSWORD', 'S3cret') %>
   host: <%= ENV.fetch('DATABASE_HOST', 'localhost') %>
   port: <%= ENV.fetch('DATABASE_PORT', 5432) %>
 
@@ -59,7 +59,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: api_test
+  port: <%= ENV.fetch('TEST_DATABASE_PORT', 5433) %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
