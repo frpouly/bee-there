@@ -43,9 +43,12 @@ RSpec.describe '/hives' do
       end
 
       it 'renders a JSON response with the new hive' do
-        post hives_url,
-             params: { hive: valid_attributes }, as: :json
+        post hives_url, params: { hive: valid_attributes }, as: :json
         expect(response).to have_http_status(:created)
+      end
+
+      it 'has the correct content type' do
+        post hives_url, params: { hive: valid_attributes }, as: :json
         expect(response.content_type).to match(a_string_including('application/json'))
       end
     end
@@ -59,10 +62,13 @@ RSpec.describe '/hives' do
       end
 
       it 'renders a JSON response with errors for the new hive' do
-        post hives_url,
-             params: { hive: invalid_attributes }, as: :json
-        expect(response).to have_http_status(:unprocessable_entity)
+        post hives_url, params: { hive: invalid_attributes }, as: :json
         expect(response.content_type).to match(a_string_including('application/json'))
+      end
+
+      it 'has the correct HTTP code' do
+        post hives_url, params: { hive: invalid_attributes }, as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
