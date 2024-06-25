@@ -38,6 +38,10 @@ jobs:
       - name: API Tests
         working-directory: api
         run: bundle exec rspec spec
+        env:
+          POSTGRES_DB: bee_there_db
+          POSTGRES_USER: bee_there
+          POSTGRES_PASSWORD: S3cret
 
       - name: API Upload coverage artifacts
         uses: actions/upload-artifact@v3
