@@ -1,0 +1,64 @@
+name: Setup and Validate API
+
+# Concern 1
+on:
+  push:
+    branches: [ '**' ]
+    paths:
+      - 'api/**'
+
+jobs:
+  api_validation:
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+
+    services:
+      postgres:
+        image: postgres:alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: bee_there_db
+          POSTGRES_USER: bee_there
+          POSTGRES_PASSWORD: S3cret
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: API Setup
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.0
+          working-directory: api
+          bundler-cache: true
+          cache-version: 1
+
+      - name: API Tests
+        working-directory: api
+        run: bundle exec rspec spec
+
+      - name: API Upload coverage artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: api/coverage
+
+    # Concern 6
+      - name: API Lint
+        working-directory: api
+        run: bundle exec rubocop
+        
+      - name: API Coverage
+        run: |
+          covered_percent=$(cat api/coverage/coverage.json | jq -r '.metrics.covered_percent');
+          echo "Coverage ($covered_percent%)";
+          required_coverage=80;
+          echo "Minimum coverage ($required_coverage%)";
+          if (( $(echo "$covered_percent < $required_coverage" | bc -l) )); then
+            echo "Coverage ($covered_percent%) is below the required threshold of $required_coverage%."
+            exit 1
+          else
+            echo "Coverage ($covered_percent%) passed the required threshold of $required_coverage%."
+          fi
