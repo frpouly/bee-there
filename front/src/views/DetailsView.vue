@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import Header from '../components/Header.vue'
-import Hives from '../components/Hives.vue'
+import Details from '../components/Details.vue'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 </script>
 
 <template>
@@ -12,7 +14,7 @@ import Hives from '../components/Hives.vue'
     </header>
 
     <body>
-      <Hives/>
+      <Details :id="route.params.id"/>
     </body>
   </main>
 </template>
