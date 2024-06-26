@@ -8,7 +8,6 @@ const route = useRoute()
 
 <template>
   <main>
-    
     <header>
       <Header/>
     </header>

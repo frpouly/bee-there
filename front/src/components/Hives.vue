@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import HiveLine from './HiveLine.vue'
 import axios from 'axios';
+defineProps<{
+  hives: Array
+}>()
 </script>
 
 <template>
@@ -28,24 +31,3 @@ import axios from 'axios';
   color: #fff;
 }
 </style>
-
-<script lang="ts">
-export default {
-  data() {
-    return {
-      hives: []
-    };
-  },
-  mounted() {
-    axios
-      .get(import.meta.env.VITE_API_URL + "/hives")
-      .then(response => {
-        this.hives = response.data;
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }
-};
-</script>
-
