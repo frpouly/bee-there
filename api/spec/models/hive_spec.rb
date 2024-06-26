@@ -14,6 +14,12 @@ RSpec.describe Hive do
       end.to raise_error(ActiveRecord::RecordInvalid)
     end
 
+    it 'can not create a hive with a negative weight' do
+      expect do
+        described_class.create!({ name: 'not_short', weight: -1 })
+      end.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
     it 'can create a hive with valid attributes' do
       expect do
         described_class.create!({ name: 'not_short', weight: 12 })
