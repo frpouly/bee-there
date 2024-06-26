@@ -1,0 +1,115 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/hives":
+    post:
+      summary: Creates a hive
+      tags:
+      - Hives
+      parameters: []
+      responses:
+        '201':
+          description: hive created
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                weight:
+                  type: integer
+              required:
+              - name
+              - weight
+            examples:
+              '0':
+                summary: Creates a hive
+                value:
+                  name: Splendid hive
+                  weight: 23
+    get:
+      summary: Get all hives
+      tags:
+      - Hives
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    weight:
+                      type: integer
+                  required:
+                  - id
+                  - name
+                  - weight
+  "/hives/{id}":
+    get:
+      summary: Retrives a hive
+      tags:
+      - Hives
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: hive found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  weight:
+                    type: integer
+                  created_at:
+                    type: datetime
+                  updated_at:
+                    type: datetime
+                required:
+                - id
+                - name
+                - weight
+                - created_at
+                - updated_at
+        '404':
+          description: blog not found
+    delete:
+      summary: Deletes the hive
+      tags:
+      - Hives
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: deleted
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000

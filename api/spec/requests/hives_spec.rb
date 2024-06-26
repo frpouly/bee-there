@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require 'swagger_helper'
 
-RSpec.describe '/hives' do
+describe '/hives' do
   let(:valid_attributes) do
     {
       name: Faker::Lorem.characters(number: 8),
@@ -15,6 +15,100 @@ RSpec.describe '/hives' do
       name: Faker::Lorem.characters(number: 4),
       weight: Faker::Number.number(digits: 2)
     }
+  end
+
+  path '/hives' do
+    post 'Creates a hive' do
+      tags 'Hives'
+      consumes 'application/json'
+      parameter name: :hive, in: :body, schema: {
+        type: :object,
+        properties: {
+          name: { type: :string },
+          weight: { type: :integer }
+        },
+        required: %w[name weight]
+      }
+      request_body_example value: { name: 'Splendid hive', weight: 23 }
+
+      response '201', 'hive created' do
+        let(:hive) { { name: 'Splendid hive', weight: 8 } }
+        run_test!
+      end
+
+      response '422', 'invalid request' do
+        let(:hive) { { name: 'Hive', weight: 8 } }
+        run_test!
+      end
+    end
+
+    get 'Get all hives' do
+      tags 'Hives'
+      produces 'application/json'
+      response '200', 'OK' do
+        schema type: :array,
+               items: {
+                 type: :object,
+                 properties: {
+                   id: { type: :integer },
+                   name: { type: :string },
+                   weight: { type: :integer }
+                 },
+                 required: %w[id name weight]
+               }
+
+        run_test!
+      end
+
+      before do
+        2.times do
+          Hive.create(
+            {
+              name: Faker::Lorem.characters(number: 8),
+              weight: Faker::Number.number(digits: 2)
+            }
+          )
+        end
+      end
+    end
+  end
+
+  path '/hives/{id}' do
+    get 'Retrives a hive' do
+      tags 'Hives'
+      produces 'application/json'
+      parameter name: :id, in: :path, type: :string
+
+      response '200', 'hive found' do
+        schema type: :object,
+               properties: {
+                 id: { type: :integer },
+                 name: { type: :string },
+                 weight: { type: :integer },
+                 created_at: { type: :datetime },
+                 updated_at: { type: :datetime }
+               },
+               required: %w[id name weight created_at updated_at]
+
+        let(:id) { Hive.create(name: 'Splendid hive', weight: 1).id }
+        run_test!
+      end
+
+      response '404', 'blog not found' do
+        let(:id) { 'invalid' }
+        run_test!
+      end
+    end
+
+    delete 'Deletes the hive' do
+      tags 'Hives'
+      parameter name: :id, in: :path, type: :string
+
+      response '204', 'deleted' do
+        let(:id) { Hive.create(name: 'Splendid hive', weight: 1).id }
+        run_test!
+      end
+    end
   end
 
   describe 'GET /index' do
