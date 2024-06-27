@@ -1,4 +1,6 @@
-FROM node:lts-alpine
+FROM --platform=linux/amd64 node:lts-alpine
+
+ENV VITE_API_URL https://bee-there-api.pouly.eu
 
 # install simple http server for serving static content
 RUN npm install -g http-server
