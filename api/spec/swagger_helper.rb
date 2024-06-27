@@ -30,6 +30,14 @@ RSpec.configure do |config|
               default: 'localhost:3000'
             }
           }
+        },
+        {
+          url: 'https://{defaultHost}',
+          variables: {
+            defaultHost: {
+              default: 'bee-there-api.pouly.eu'
+            }
+          }
         }
       ]
     }
