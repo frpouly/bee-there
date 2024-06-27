@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
+import {type Hive} from '../views/HomeView.vue'
+import { ref } from 'vue'
 defineProps<{
   id: number
 }>()
@@ -21,7 +23,7 @@ defineProps<{
 export default {
   data() {
     return {
-      hive: {}
+      hive: { id: this.id, name: null, weight: null }
     };
   },
   mounted() {

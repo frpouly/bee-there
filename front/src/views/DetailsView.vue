@@ -13,7 +13,7 @@ const route = useRoute()
     </header>
 
     <body>
-      <Details :id="route.params.id"/>
+      <Details :id="parseInt(Array.isArray(route.params.id) ? route.params.id[0] : route.params.id)"/>
     </body>
   </main>
 </template>

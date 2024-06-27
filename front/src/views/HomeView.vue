@@ -3,6 +3,7 @@ import Header from '../components/Header.vue'
 import Hives from '../components/Hives.vue'
 import axios from 'axios';
 
+
 </script>
 
 <template>
@@ -24,6 +25,12 @@ import axios from 'axios';
 </template>
 
 <script lang="ts">
+export type Hive = {
+  id: number;
+  name: string;
+  weight: number;
+}
+
 export default {
   methods: {
     submit() {
@@ -31,7 +38,7 @@ export default {
           name: this.name,
           weight: this.weight
         }
-        axios.post(import.meta.env.VITE_API_URL + "/hives", hive)
+        axios.post<Hive>(import.meta.env.VITE_API_URL + "/hives", hive)
         .then((result) => {
           this.hives.push(result.data)
         })
@@ -42,12 +49,14 @@ export default {
   },
   data() {
     return {
-      hives: []
+      hives: [] as Hive[],
+      name: null,
+      weight: null
     };
   },
   mounted() {
     axios
-      .get(import.meta.env.VITE_API_URL + "/hives")
+      .get<Hive[]>(import.meta.env.VITE_API_URL + "/hives")
       .then(response => {
         this.hives = response.data;
       })

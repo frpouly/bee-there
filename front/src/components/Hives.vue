@@ -2,7 +2,7 @@
 import HiveLine from './HiveLine.vue'
 import axios from 'axios';
 defineProps<{
-  hives: Array
+  hives: Array<any>
 }>()
 </script>
 
