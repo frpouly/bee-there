@@ -2,11 +2,6 @@
 
 This project is a monorepo containing a Rails API and a Vue.js frontend.
 
-## How to use it
-
-- [The API](https://bee-there-api.pouly.eu/hives)
-- [The frontend](https://bee-there.pouly.eu)
-
 ## How to run it locally
 
 ### Prerequisites
